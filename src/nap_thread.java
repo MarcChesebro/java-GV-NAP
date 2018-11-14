@@ -11,7 +11,7 @@ final class nap_thread implements Runnable {
     
     // Constructor
     // pass the control connection socket in
-    public ftp_thread(Socket socket) throws Exception {
+    public nap_thread(Socket socket) throws Exception {
         this.connection = socket;
     }
 
@@ -41,7 +41,7 @@ final class nap_thread implements Runnable {
        	    int port = Integer.parseInt(frstln);
 
             String clientCommand = tokens.nextToken();
-			if (clientCommand.equals("search") { 
+			if (clientCommand.equals("search")) { 
                 String searchKey = tokens.nextToken();
 				if (searchKey == null) searchKey = "";
 				//FILTER FILES
