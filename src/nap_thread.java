@@ -28,53 +28,55 @@ final class nap_thread implements Runnable {
         // wrap input and output in buffered streams
         DataOutputStream outToClient = new DataOutputStream(connection.getOutputStream());
         BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		user = threadCount;
-		System.out.println("Client" + threadCount++ + " has connected!");
+	user = threadCount;
+	System.out.println("Client" + threadCount++ + " has connected!");
         // read input from user
-		while (true) {
-			String fromClient = inFromcClient.readLine();
-			if (fromClient == null) {
-				break;
-			}
-            StringTokenizer tokens = new StringTokenizer(fromClient);
-       	    String frstln = tokens.nextToken();
-       	    int port = Integer.parseInt(frstln);
+	while (true) {
+		String fromClient = inFromClient.readLine();
+		if (fromClient == null) {
+			break;
+		}
+        	StringTokenizer tokens = new StringTokenizer(fromClient);
+       		String frstln = tokens.nextToken();
+      	 	int port = Integer.parseInt(frstln);
 
-            String clientCommand = tokens.nextToken();
-			if (clientCommand.equals("search")) { 
-                String searchKey = tokens.nextToken();
-				if (searchKey == null) searchKey = "";
-				//FILTER FILES
+        	String clientCommand = tokens.nextToken();
+		if (clientCommand.equals("search")) { 
+                	String searchKey = tokens.nextToken();
+			if (searchKey == null) searchKey = "";
+			//FILTER FILES
 
-                outToClient.writeBytes(statusOk);
-				//SEND Filtered XML FILE
-                BufferedReader fileOut = new BufferedReader(new FileReader("./media/" + filename));
-                String line = fileOut.readLine();
+                	outToClient.writeBytes(statusOk);
+			String filename = "";
+			//SEND Filtered XML FILE
+                	BufferedReader fileOut = new BufferedReader(new FileReader("./media/" + filename));
+                	String line = fileOut.readLine();
 
-                while(line != null){
-                    outToClient.writeBytes(line + "\n");
-                    line = fileOut.readLine();
-                }
-				fileOut.flush();
-				fileOut.close();
-            } else if (clientCommand.equals("register")) {
-				                Socket dataSocket = new Socket(controlConnection.getInetAddress(), port);
-                DataOutputStream dataOutToClient = new DataOutputStream(dataSocket.getOutputStream());
+                	while(line != null){
+                    		outToClient.writeBytes(line + "\n");
+                    		line = fileOut.readLine();
+                	}
+			outToClient.flush();
+			//outToClient.close();
+			fileOut.close();
+       		} else if (clientCommand.equals("register")) {
+			Socket dataSocket = new Socket(connection.getInetAddress(), port);
+                	DataOutputStream dataOutToClient = new DataOutputStream(dataSocket.getOutputStream());
 
-                outToClient.writeBytes(statusOk);
+                	outToClient.writeBytes(statusOk);
 
-                String filename = tokens.nextToken();
+                	String filename = tokens.nextToken();
 
-                BufferedReader inData = new BufferedReader(new InputStreamReader(dataSocket.getInputStream()));
-                String line = inData.readLine();
-                while(line != "END"){
-				  //  CREATE XML OBJECT BASED ON INFO IN LINE
-                    line = inData.readLine();
-                }
-				dataOutToClient.close();
-				inData.close();
-                toFile.close();
-                dataSocket.close();			    
+                	BufferedReader inData = new BufferedReader(new InputStreamReader(dataSocket.getInputStream()));
+                	String line = inData.readLine();
+                	while(line != "END"){
+			  //  CREATE XML OBJECT BASED ON INFO IN LINE
+                    		line = inData.readLine();
+                	}
+			dataOutToClient.close();
+			inData.close();
+                	//toFile.close();
+                	dataSocket.close();			    
 			}
 
 

@@ -1,5 +1,5 @@
 import javafx.application.Application;
-import javafx.application.Initailizable;
+import javafx.application.Initializable;
 
 public class MainGUI extends Initializable {
 
