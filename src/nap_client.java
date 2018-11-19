@@ -16,9 +16,9 @@ public class nap_client extends Application {
 
     public static void main(String[] args) {
 	//Spawn a thread that listens and creates threads with a connection.
-	String sentence;
-	String commands = "retr file.txt || quit";
-
+      String sentence;
+      String commands = "retr file.txt || quit";
+      while (true) {
 	sentence = "FIXME"; // insert textfield input
 	StringTokenizer tokens = new StringTokenizer(sentence);
 
@@ -65,6 +65,7 @@ public class nap_client extends Application {
 	   welcomeData.close();
 	   dataSocket.close();
 	   System.out.println("Successfully downloaded " + filename ); 
+      	}
       }
   }
 	  /***************************************/
