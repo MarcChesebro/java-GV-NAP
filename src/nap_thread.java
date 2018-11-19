@@ -74,8 +74,11 @@ final class nap_thread implements Runnable {
 			}
                 	write();
 			outToClient.writeBytes(statusOk);
+		} else if (clientCommand.equals("quit")) {
+			break;
 		}
 	}
+	connection.close();
     }
     public void write() {
     	try {
