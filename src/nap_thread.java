@@ -14,16 +14,18 @@ final class nap_thread implements Runnable {
     private Socket connection;
     private String statusOk = "200 OK\n";
     private String statusMissing = "550 File Not Found\n";
-    
+    private ArrayList<nap_user> users;
     // Constructor
     // pass the control connection socket in
     public nap_thread(Socket socket) throws Exception {
         this.connection = socket;
+	this.users = new ArrayList<nap_user>();
     }
 
     // this runs on start after the thread has been setup
     public void run() {
         try {
+	    readXML();
             processCommand();
         } catch (Exception e) {}
         System.out.println("Client has disconnected!");
@@ -50,41 +52,38 @@ final class nap_thread implements Runnable {
 		if (clientCommand.equals("search")) { 
                 	String searchKey = tokens.nextToken();
 			if (searchKey == null) searchKey = "";
-			//Find FILE
-			String filename = ""; // modify to obtain correct filename
+	//		ArrayList<String> output = getDisplayedFiles(searchKey);
                 	outToClient.writeBytes(statusOk);
-
-			//SENDING file
-                	BufferedReader fileOut = new BufferedReader(new FileReader("./media/" + filename));
-                	String line = fileOut.readLine();
-
-                	while(line != null){
-                    		outToClient.writeBytes(line + "\n");
-                    		line = fileOut.readLine();
-                	}
+                	//BufferedReader fileOut = new BufferedReader(new FileReader("./media/" + filename));
+                	//String line = fileOut.readLine();
+	//		for (Iterator<String> i = someIterable.iterator(); i.hasNext();) {
+	//			outToClient.writeBytes(i + "\n");
+	//		}
 			outToClient.flush();
 			//outToClient.close();
 			fileOut.close();
        		} else if (clientCommand.equals("register:")) {
+				
 			String username = tokens.nextToken();
 			String hostname = tokens.nextToken();
 			String connectSpeed = tokens.nextToken();
+			nap_user newUser = new nap_user(username, hostname, connectSpeed);
 			String filename;
 			String description;
 			while (tokens.hasMoreTokens()) {
 				filename = tokens.nextToken();
 				description = tokens.nextToken();
+				newUser.addFile(filename, description);
 				//register this file as XML?
 			}
+			//saveXML();
                 	outToClient.writeBytes(statusOk);
-			}
-
-
 		}
+	}
     }
 
     //This should be displayed in the GUI
-    public boolean getDisplayedFiles(String filter) {
+    public void readXML() {
     	ArrayList<String> displayFiles = new ArrayList<String>();
 	Document dom;
 	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -97,13 +96,14 @@ final class nap_thread implements Runnable {
 			Node node = nodeList.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				if (node.getNodeName() == "filename") {
-					if (node.getNodeValue().contains(filter)) {
-						String filename = node.getNodeValue();
-						String description = node.getFirstChild().getNodeValue();
-						String user = node.getParentNode().getNodeValue();
-						
-						//displayFiles.append();
-					}
+					String filename = node.getNodeValue();
+					String description = node.getFirstChild().getNodeValue();
+					Node parent = node.getParentNode();
+					String hostName = parent.getNodeValue();
+					String speed = parent.getFirstChild().getNodeValue();
+		//			if (filename.contains(filter) || description.contains(filter)) {
+						displayFiles.append(hostName + '\t' + filename + '\t' + description + '\t' + speed);
+	//				}
 				}
 			}
 		}
@@ -114,6 +114,6 @@ final class nap_thread implements Runnable {
 	} catch (IOException ioe) {
 		System.err.println(ioe.getMessage());
 	}
-	return true;
+	//return displayFiles;
     }
 }
