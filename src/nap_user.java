@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-public class nap_user {
+public class nap_user implements Serializable{
 	public String username;
 	public String hostname;
 	public String speed;

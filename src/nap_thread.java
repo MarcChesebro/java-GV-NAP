@@ -14,7 +14,7 @@ final class nap_thread implements Runnable {
     private Socket connection;
     private String statusOk = "200 OK\n";
     private String statusMissing = "550 File Not Found\n";
-    private ArrayList<nap_user> users;
+    public ArrayList<nap_user> users;
     // Constructor
     // pass the control connection socket in
     public nap_thread(Socket socket) throws Exception {
@@ -25,7 +25,7 @@ final class nap_thread implements Runnable {
     // this runs on start after the thread has been setup
     public void run() {
         try {
-	    readXML();
+	    read();
             processCommand();
         } catch (Exception e) {}
         System.out.println("Client has disconnected!");
@@ -50,18 +50,15 @@ final class nap_thread implements Runnable {
 		System.out.println("should be port number: " + port);
         	String clientCommand = tokens.nextToken();
 		if (clientCommand.equals("search")) { 
-                	String searchKey = tokens.nextToken();
+                	read();
+			String searchKey = tokens.nextToken();
 			if (searchKey == null) searchKey = "";
-	//		ArrayList<String> output = getDisplayedFiles(searchKey);
+			ArrayList<String> output = findFiles(searchKey);
+                	for (int i = 0; i < output.size(); i++) {
+				outToClient.writeBytes(output.get(i) + "\n");
+			}
                 	outToClient.writeBytes(statusOk);
-                	//BufferedReader fileOut = new BufferedReader(new FileReader("./media/" + filename));
-                	//String line = fileOut.readLine();
-	//		for (Iterator<String> i = someIterable.iterator(); i.hasNext();) {
-	//			outToClient.writeBytes(i + "\n");
-	//		}
 			outToClient.flush();
-			//outToClient.close();
-			fileOut.close();
        		} else if (clientCommand.equals("register:")) {
 				
 			String username = tokens.nextToken();
@@ -74,46 +71,88 @@ final class nap_thread implements Runnable {
 				filename = tokens.nextToken();
 				description = tokens.nextToken();
 				newUser.addFile(filename, description);
-				//register this file as XML?
 			}
-			//saveXML();
-                	outToClient.writeBytes(statusOk);
+                	write();
+			outToClient.writeBytes(statusOk);
 		}
 	}
     }
+    public void write() {
+    	try {
+		FileOutputStream fileOut = new FileOutputStream("data.ser", true);
+		ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(fileOut));
+		for (int i = 0; i < users.size(); i++) {
+			out.writeObject(users.get(i));
+		}
+		out.close();
+		fileOut.close();
+	} catch (IOException i) {
+		System.out.println("error in writing users");
+	}
+    }
 
-    //This should be displayed in the GUI
-    public void readXML() {
-    	ArrayList<String> displayFiles = new ArrayList<String>();
-	Document dom;
-	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    public void read() {
+	users = new ArrayList<nap_user>();
+    	int count = 0;
+	FileInputStream saveFile;
 	try {
-		DocumentBuilder db = dbf.newDocumentBuilder();
-
-		dom = db.parse("UserAndFiles.xml");
-		NodeList nodeList = dom.getElementsByTagName("*");
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				if (node.getNodeName() == "filename") {
-					String filename = node.getNodeValue();
-					String description = node.getFirstChild().getNodeValue();
-					Node parent = node.getParentNode();
-					String hostName = parent.getNodeValue();
-					String speed = parent.getFirstChild().getNodeValue();
-		//			if (filename.contains(filter) || description.contains(filter)) {
-						displayFiles.append(hostName + '\t' + filename + '\t' + description + '\t' + speed);
-	//				}
-				}
+		saveFile = new FileInputStream("data.ser");
+		try {
+			ObjectInputStream save = new ObjectInputStream(new BufferedInputStream(saveFile));
+			for (;;) {
+				users.add((nap_user) save.readObject());
+				count++;
+			}
+		} catch(Exception e) {
+			
+		} finally {
+			saveFile.close();
+		}
+	} catch (EOFException e){
+		System.out.println("exception in write");
+	} catch (Exception exc) {
+		System.out.println("exception in write");
+	}
+    }
+    public ArrayList<String> findFiles(String text) {
+    	ArrayList<String> retList = new ArrayList<String>();
+	    for (int i = 0; i < users.size(); i++) {
+		nap_user user = users.get(i);
+		for (int j = 0; j < user.filesAndDesc.size(); j++) {
+			if (user.filesAndDesc.get(j).contains(text)) {
+				retList.add(user.username +" "+ user.hostname +" "+ user.speed +" "+ user.filesAndDesc.get(j));
 			}
 		}
-	} catch (ParserConfigurationException pce) {
-		System.out.println(pce.getMessage());
-	} catch (SAXException se) {
-		System.out.println(se.getMessage());
-	} catch (IOException ioe) {
-		System.err.println(ioe.getMessage());
-	}
-	//return displayFiles;
+	    }
+	return retList;
     }
+    //THIS IS A TEST ONLY!!!!!
+public static void main(String[] args) {
+	try {
+	nap_thread n = new nap_thread(null);
+	n.users.add(new nap_user("a", "b", "c"));
+	n.users.get(0).addFile("asdf", "asdf");
+	n.users.get(0).addFile("asd", "asd");
+	n.users.get(0).addFile("as", "as");
+	n.users.get(0).addFile("a", "a");
+	n.users.add(new nap_user("d", "e", "f"));
+	n.users.get(1).addFile("ghjk", "ghjk");
+	n.users.get(1).addFile("ghj", "ghj");
+	n.users.get(1).addFile("gh", "gh");
+	n.users.get(1).addFile("g", "g");
+	n.write();
+	nap_thread q = new nap_thread(null);
+	q.read();
+	//System.out.println(q.users.size());
+	for (int i = 0; i < q.users.size(); i++) {
+		nap_user u = q.users.get(i);
+		System.out.println(u.username + " " + u.hostname  + " " + u.speed);
+		for (int j = 0; j < u.filesAndDesc.size(); j++) {
+			System.out.println(u.filesAndDesc.get(j));
+		}
+	}
+	} catch (Exception e) {
+		System.out.println(e);
+	}
+}
 }
