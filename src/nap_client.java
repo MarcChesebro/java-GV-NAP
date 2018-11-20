@@ -15,6 +15,8 @@ public class nap_client {
         //Spawn a thread that listens and creates threads with a connection.
         String sentence;
         String commands = "retr file.txt || quit";
+
+
     }
 
     public void write_to_ftp_window(String str){
@@ -37,7 +39,7 @@ public class nap_client {
             FtpinFromServer = new BufferedReader(new InputStreamReader(FtpControlSocket.getInputStream()));
             write_to_ftp_window("Connected to " + serverName);
 
-        }else if (sentence.startsWith("retrieve"))/*the connect is probable going to by the connect button*/ {
+        }else if (sentence.startsWith("retr")){
 
             int dataPort = FtpcontrolPort + 2;
 
