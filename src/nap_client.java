@@ -22,12 +22,15 @@ public class nap_client {
         String sentence;
         String commands = "retr file.txt || quit";
 
+        nap_client client = new nap_client();
+
+
         nap_client_thread ftp_server = new nap_client_thread();
         Thread client_ftp_server = new Thread(ftp_server);
 
         // start the thread
         client_ftp_server.start();
-
+        client.connect("Marc", "localhost", "fast");
     }
 
     public void write_to_ftp_window(String str){
@@ -43,12 +46,15 @@ public class nap_client {
             }
 
             serverSocket = new Socket(hostname, 12000);
+
             outToServer = new DataOutputStream(FtpControlSocket.getOutputStream());
             inFromServer = new BufferedReader(new InputStreamReader(FtpControlSocket.getInputStream()));
-            outToServer.writeBytes("register: " + username + ", " + serverSocket.getLocalAddress().toString() + ", " + connectionspeed); //FIXME filenames???????
+            String connectionString = "register: " + username + ", " + serverSocket.getLocalAddress().toString() + ", " + connectionspeed;
+            System.out.println(connectionString);
+            outToServer.writeBytes(connectionString); //FIXME filenames???????
 
         }catch(Exception e){
-            System.out.println("connection to server failed!");
+            System.out.println("connection to server failed!" + e.toString());
         }
     }
 
