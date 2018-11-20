@@ -1,5 +1,7 @@
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,7 +13,7 @@ public class MainGui {
 	JPanel panel;
 	JFrame frame;
 	 JLabel connection, ServerhostName, port, userName, hostName, speed;
-	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt;
+	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt;
 	JButton connect;
 		
 		
@@ -59,36 +61,69 @@ public class MainGui {
 		panel.add(portTxt,c);
 
 		connect = new JButton("Connect");
-		c.ipadx=0;
+		c.ipadx=100;
+		c.gridwidth=2;
 		c.gridx=4;
 		c.gridy=1;
 		panel.add(connect, c);
+		connect.addActionListener(new ButtonListener());
 
 		userName = new JLabel("UserName:");
+		c.ipadx=0;
+		c.gridwidth=1;
 		c.gridx=0;
 		c.gridy=2;
 		panel.add(userName, c);
 
-		userNameTxt = new JTextField("username", 64);
+		userNameTxt = new JTextField();
+		c.ipadx=500;
 		c.gridx=1;
 		c.gridy=2;
 		panel.add(userNameTxt,c);
 
 		hostName = new JLabel("Hostname:");
+		c.ipadx=0;
 		c.gridx=2;
 		c.gridy=2;
 		panel.add(hostName, c);
 
-		hostNameTxt = new JTextField("hostname",64);
+		hostNameTxt = new JTextField();
+		c.ipadx=500;
 		c.gridx=3;
 		c.gridy=2;
 		panel.add(hostNameTxt, c);
 		
+		speed = new JLabel("Speed:");
+		c.ipadx=0;
+		c.gridx=4;
+		c.gridy=2;
+		panel.add(speed, c);
+		
+		speedTxt = new JTextField();
+		c.ipadx=100;
+		c.gridx=5;
+		c.gridy=2;
+		panel.add(speedTxt, c);
+		
 		frame.add(panel);
 		frame.pack();
 	}
+	
+	private class ButtonListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent event) {
+
+			if (connect == event.getSource()) {
+				
+				//Does Connect stuff?
+				
+			}
+		}
+	}
+	
 	 public static void main (String[] args) {
 
 		 new MainGui();
 	 }
+	 
 }
