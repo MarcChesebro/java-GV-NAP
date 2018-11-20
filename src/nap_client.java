@@ -19,6 +19,7 @@ public class nap_client {
 
     public void write_to_ftp_window(String str){
         // FIXME print to gui when implemented
+        System.out.println(str);
     }
 
     public void GoButton(String command) throws IOException{
