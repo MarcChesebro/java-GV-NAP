@@ -140,44 +140,47 @@ public class MainGui {
 		c.gridy=5;
 		panel.add(searchBtn, c);
 		searchBtn.addActionListener(new ButtonListener());
-		
-		searchResults = new JTextArea(1, 1);
-		//searchResults.setEditable(false);
+	
+		searchResults = new JTextArea(10, 100);
+		searchResults.setEditable(false);
 		searchResults.setLineWrap(true);
+		searchResults.setWrapStyleWord(true);
 		c.ipadx=0;
 		c.ipady=0;
-		c.gridwidth=1;
-		c.gridx=1;
+		c.gridwidth=5;
+		c.gridheight=5;
+		c.gridx=0;
 		c.gridy=6;
 		panel.add(searchResults,c);
-		
-		
+
+
 		frame.add(panel);
 		frame.pack();
 	}
-	
+
 	private class ButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent event) {
 
 			if (connect == event.getSource()) {
-				
+
 				//Does Connect stuff?
-				
+
 			}
-			
+
 			if (searchBtn == event.getSource()) {
 				//Does Search stuff here
-				searchResults.setText("Speed\t Hostname\t FileName\n");
+				searchResults.setText("Speed:\t\t\t Hostname:\t\t\t FileName:\t\t\t\n");
 				ArrayList<String> files = client.searchBtn(keywordTxt.getText());
 			}
 		}
 	}
-	
+
 	 public static void main (String[] args) {
 
 		 new MainGui();
 	 }
-	 
+
 }
+
 

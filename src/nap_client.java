@@ -52,9 +52,21 @@ public class nap_client {
 
             outToServer = new DataOutputStream(serverSocket.getOutputStream());
             inFromServer = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
-            String connectionString = "register: " + username + ", " + serverSocket.getLocalAddress().toString() + ", " + connectionspeed + "\n";
+
+            String connectionString = "register: " + username + ", " + serverSocket.getLocalAddress().toString() + ", " + connectionspeed;
+
+            //get files
+            File folder = new File("./media");
+            String[] files = folder.list();
+            if (files != null) {
+                for (String file : files) {
+                    connectionString += ", " + file + ", " + file;
+                }
+            }
+
             System.out.println(connectionString);
-            outToServer.writeBytes(connectionString); //FIXME filenames???????
+            connectionString += "\n";
+            outToServer.writeBytes(connectionString);
 
         }catch(Exception e){
             System.out.println("connection to server failed!" + e.toString());
