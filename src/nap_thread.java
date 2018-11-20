@@ -56,21 +56,23 @@ final class nap_thread implements Runnable {
             String clientCommand = tokens.nextToken();
             //System.out.println(clientCommand);
 	    if (clientCommand.equals("search:")) {
-		    System.out.println("searching");
-                read();
-		System.out.println("read successful");
 	        if (!tokens.hasMoreElements()) {
 	    	   clientCommand = "";
 	        } else {
                    clientCommand = tokens.nextToken();
+		   System.out.println(clientCommand);
 		}
+		    System.out.println("searching");
+                read();
+		System.out.println("read successful");
+
                 ArrayList<String> output = findFiles(clientCommand);
                 for (int i = 0; i < output.size(); i++) {
 		
                     outToClient.writeBytes(output.get(i) + "\n");
                 }
 		outToClient.writeBytes("done\n");
-                outToClient.writeBytes(statusOk);
+                //outToClient.writeBytes(statusOk);
                 outToClient.flush();
             } else if (clientCommand.equals("register:")) {
 		
@@ -145,6 +147,7 @@ final class nap_thread implements Runnable {
     public ArrayList<String> findFiles(String text) {
         ArrayList<String> retList = new ArrayList<String>();
 	System.out.println(users.size());
+	System.out.println(text);
         for (int i = 0; i < users.size(); i++) {
             nap_user user = users.get(i);
             for (int j = 0; j < user.filesAndDesc.size(); j++) {

@@ -53,14 +53,14 @@ public class nap_client {
             outToServer = new DataOutputStream(serverSocket.getOutputStream());
             inFromServer = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
 
-            String connectionString = "register: " + username + ", " + serverSocket.getLocalAddress().toString() + ", " + connectionspeed;
+            String connectionString = "register: " + username + " " + serverSocket.getLocalAddress().toString() + " " + connectionspeed;
 
             //get files
             File folder = new File("./media");
             String[] files = folder.list();
             if (files != null) {
                 for (String file : files) {
-                    connectionString += ", " + file + ", " + file;
+                    connectionString += " " + file + " " + file;
                 }
             }
 
@@ -74,7 +74,8 @@ public class nap_client {
     }
 
     public ArrayList<String> searchBtn(String filter) throws IOException {
-        String sentence = "search: " + filter + "\n";
+        System.out.println(filter);
+	String sentence = "search: " + filter + "\n";
         outToServer.writeBytes(sentence);
         ArrayList<String> files = new ArrayList<String>();
         while (true) {
@@ -82,13 +83,12 @@ public class nap_client {
             if (fromClient == null) {
                 continue;
             }
-            files.add(fromClient);
             while (!fromClient.equals("done")) {
+                files.add(fromClient);
                 fromClient = inFromServer.readLine();
                 if (fromClient == null) {
                     continue;
                 }
-                files.add(fromClient);
             }
             break;
         }

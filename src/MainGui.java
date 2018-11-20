@@ -231,6 +231,7 @@ public class MainGui {
 				//Does Search stuff here
 				searchResults.setText("Speed:\t\t\t Hostname:\t\t\t FileName:\t\t\t\n");
 				try {
+					System.out.println(keywordTxt.getText() + "What");
 					ArrayList<String> files = client.searchBtn(keywordTxt.getText());
 					for (int i = 0; i < files.size(); i++) {
 						searchResults.append(files.get(i)+ "\n");	
@@ -238,7 +239,7 @@ public class MainGui {
 				} catch(IOException e) {
 				
 				}
-				keywordTxt.setText("");
+				//keywordTxt.setText("");
 			}
 			
 			if (GoBtn == event.getSource()) {
