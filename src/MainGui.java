@@ -18,7 +18,7 @@ public class MainGui {
 	JFrame frame;
 	JLabel connection, ServerhostName, port, userName, hostName, speed, search, enter, keyword;
 	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt, keywordTxt;
-	JButton connect, searchBtn;
+	JButton connect, searchBtn, GoBtn;
 	nap_client client;	
 		
 	public MainGui() {
@@ -150,21 +150,21 @@ public class MainGui {
 		c.gridx=0;
 		c.gridy=30;
 		panel.add(enter, c);
-		
-		
-		ftp = new JLabel("FTP:");
+
+
+		JLabel ftp = new JLabel("FTP:");
 		c.ipadx=0;
 		c.gridx=0;
 		c.gridy=31;
 		panel.add(ftp, c);
-		
-		command = new JLabel("Enter Command:");
+
+		JLabel command = new JLabel("Enter Command:");
 		c.ipadx=0;
 		c.gridx=0;
 		c.gridy=32;
 		panel.add(command, c);
-		
-		commandTxt = new JTextField();
+
+		JTextField commandTxt = new JTextField();
 		c.ipadx=500;
 		c.gridx=1;
 		c.gridy=32;
@@ -190,7 +190,7 @@ public class MainGui {
 		c.gridy=6;
 		panel.add(searchResults,c);
 
-		commandResults = new JTextArea(10, 100);
+		JTextArea commandResults = new JTextArea(10, 100);
 		commandResults.setEditable(false);
 		commandResults.setLineWrap(true);
 		commandResults.setWrapStyleWord(true);
