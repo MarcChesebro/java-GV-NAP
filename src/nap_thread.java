@@ -134,7 +134,7 @@ final class nap_thread implements Runnable {
             nap_user user = users.get(i);
             for (int j = 0; j < user.filesAndDesc.size(); j++) {
                 if (user.filesAndDesc.get(j).contains(text)) {
-                    retList.add(user.username + " " + user.hostname + " " + user.speed + " " + user.filesAndDesc.get(j));
+                    retList.add(user.speed + "\t\t\t " + user.hostname +  "\t\t\t " + user.filesAndDesc.get(j));
                 }
             }
         }
