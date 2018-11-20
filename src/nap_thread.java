@@ -40,19 +40,22 @@ final class nap_thread implements Runnable {
         DataOutputStream outToClient = new DataOutputStream(connection.getOutputStream());
         BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         user = threadCount;
-        System.out.println("Client" + threadCount++ + " has connected!");
+        System.out.println("Client" + threadCount++ + " has connected!!!!1!");
         // read input from user
         while (true) {
+	    //System.out.println("waiting");
             String fromClient = inFromClient.readLine();
             if (fromClient == null) {
-                break;
+                continue;
             }
+	    System.out.println("through");
             StringTokenizer tokens = new StringTokenizer(fromClient);
-            String frstln = tokens.nextToken();
-            int port = Integer.parseInt(frstln);
-            System.out.println("should be port number: " + port);
+            //String frstln = tokens.nextToken();
+            //int port = Integer.parseInt(frstln);
+            //System.out.println(frstln);
             String clientCommand = tokens.nextToken();
-            if (clientCommand.equals("search:")) {
+            System.out.println(clientCommand);
+	    if (clientCommand.equals("search:")) {
                 read();
                 String searchKey = tokens.nextToken();
                 if (searchKey == null) searchKey = "";
@@ -63,10 +66,11 @@ final class nap_thread implements Runnable {
                 outToClient.writeBytes(statusOk);
                 outToClient.flush();
             } else if (clientCommand.equals("register:")) {
-
+		
                 String username = tokens.nextToken();
                 String hostname = tokens.nextToken();
                 String connectSpeed = tokens.nextToken();
+		//System.out.println(username + " " + hostname + " " + connectSpeed);
                 nap_user newUser = new nap_user(username, hostname, connectSpeed);
                 String filename;
                 String description;
@@ -118,7 +122,7 @@ final class nap_thread implements Runnable {
         } catch (EOFException e) {
             System.out.println("exception in write");
         } catch (Exception exc) {
-            System.out.println("exception in write");
+            //System.out.println("exception in write");
         }
     }
 
@@ -138,6 +142,7 @@ final class nap_thread implements Runnable {
     //THIS IS A TEST ONLY!!!!!
     public static void main(String[] args) {
         try {
+		/*
             nap_thread n = new nap_thread(null);
             n.users.add(new nap_user("a", "b", "c"));
             n.users.get(0).addFile("asdf", "asdf");
@@ -149,7 +154,7 @@ final class nap_thread implements Runnable {
             n.users.get(1).addFile("ghj", "ghj");
             n.users.get(1).addFile("gh", "gh");
             n.users.get(1).addFile("g", "g");
-            n.write();
+            n.write();*/
             nap_thread q = new nap_thread(null);
             q.read();
             //System.out.println(q.users.size());
