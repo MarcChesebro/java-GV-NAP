@@ -211,7 +211,7 @@ public class MainGui {
 		public void actionPerformed(ActionEvent event) {
 
 			if (connect == event.getSource()) {
-
+				client.connect(userNameTxt.getText(), hostNameTxt.getText(), speedTxt.getText());
 				//Does Connect stuff?
 
 			}
