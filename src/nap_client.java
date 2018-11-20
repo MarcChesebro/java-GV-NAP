@@ -3,6 +3,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.StringTokenizer;
+import javax.swing.JFrame;
 
 public class nap_client {
 
@@ -30,7 +31,8 @@ public class nap_client {
 
         // start the thread
         client_ftp_server.start();
-        client.connect("Marc", "localhost", "fast");
+//	MainGUI gui = new MainGUI(this);
+        //client.connect("Marc", "localhost", "fast");
 
     }
 

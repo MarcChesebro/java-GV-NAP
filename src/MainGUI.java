@@ -9,15 +9,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class MainGui {
+public class MainGUI {
 	JPanel panel;
 	JFrame frame;
 	 JLabel connection, ServerhostName, port, userName, hostName, speed;
 	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt;
 	JButton connect;
+	nap_client client;
 		
 		
-	public MainGui() {
+	public MainGUI() {
+		this.client = new nap_client();
+
+		nap_client_thread ftp_server = new nap_client_thread();
+		Thread client_ftp_server = new Thread(ftp_server);
+		client_ftp_server.start();
 		gui();
 		
 	}
@@ -123,7 +129,7 @@ public class MainGui {
 	
 	 public static void main (String[] args) {
 
-		 new MainGui();
+		 //new MainGUI();
 	 }
 	 
 }

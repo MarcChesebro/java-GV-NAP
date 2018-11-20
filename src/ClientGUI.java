@@ -1,3 +1,4 @@
+/*
 import javax.swing.JFrame;
 
 public class ClientGUI {
@@ -13,4 +14,4 @@ public class ClientGUI {
     frame.setResizable(false);
     frame.setVisible(true);
   }
-}
+}*/
