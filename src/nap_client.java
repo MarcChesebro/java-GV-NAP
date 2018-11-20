@@ -1,4 +1,4 @@
-
+import java.utils.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -60,10 +60,31 @@ public class nap_client {
             System.out.println("connection to server failed!" + e.toString());
         }
     }
+    public ArrayList<String> searchBtn(String filter) throws IOException {
+    	String sentence = "search: " + filter;
+	outToServer.writeBytes(sentence);
+	ArrayList<String> files = new ArrayList<String>();
+	while(true) {
+		String fromClient = inFromClient.readLine();
+		if (fromClient == null) {
+			continue;
+		}
+		files.add(fromClient);
+		while (!fromClient.equals("done")) {
+			fromClient = inFromClient.readLine();
+			if (fromClient == null) {
+				continue;
+			}
+			files.add(fromClient);
+		}
+		break;
+	}
+	return files;
+    }
 
     public void ftpButton(String command) throws IOException{
-        String sentence = command; // insert textfield input
-        StringTokenizer tokens = new StringTokenizer(sentence);
+        String sentence = command;
+	StringTokenizer tokens = new StringTokenizer(sentence);
 
         if(sentence.startsWith("connect")){
             tokens.nextToken();
@@ -75,9 +96,8 @@ public class nap_client {
             FtpoutToServer = new DataOutputStream(FtpControlSocket.getOutputStream());
             FtpinFromServer = new BufferedReader(new InputStreamReader(FtpControlSocket.getInputStream()));
             write_to_ftp_window("Connected to " + serverName);
-
         }else if (sentence.startsWith("retr")){
-
+	    
             int dataPort = FtpcontrolPort + 2;
 
             FtpoutToServer.writeBytes(dataPort + " " + sentence + " " + '\n');

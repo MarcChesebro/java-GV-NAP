@@ -63,6 +63,7 @@ final class nap_thread implements Runnable {
                 for (int i = 0; i < output.size(); i++) {
                     outToClient.writeBytes(output.get(i) + "\n");
                 }
+		outToClient.writeBytes("done");
                 outToClient.writeBytes(statusOk);
                 outToClient.flush();
             } else if (clientCommand.equals("register:")) {

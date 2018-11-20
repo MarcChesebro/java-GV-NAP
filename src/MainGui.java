@@ -1,3 +1,5 @@
+import java.util.*;
+import java.io.*;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -166,7 +168,8 @@ public class MainGui {
 			
 			if (searchBtn == event.getSource()) {
 				//Does Search stuff here
-				searchResults.setText("Speed: Hostname: FileName:");
+				searchResults.setText("Speed\t Hostname\t FileName\n");
+				ArrayList<String> files = client.searchBtn(keywordTxt.getText());
 			}
 		}
 	}
