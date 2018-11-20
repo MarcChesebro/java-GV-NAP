@@ -8,7 +8,7 @@ public class nap_client_thread implements Runnable{
         ServerSocket welcomeSocket;
 
         try {
-            welcomeSocket = new ServerSocket(12000);
+            welcomeSocket = new ServerSocket(14000);
         }catch(Exception e){
             System.out.println("could not create ftp_server");
             return;

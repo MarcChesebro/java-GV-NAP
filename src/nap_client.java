@@ -6,10 +6,16 @@ import java.util.StringTokenizer;
 
 public class nap_client {
 
+    // FTP instance variables
     private Socket FtpControlSocket;
     private DataOutputStream FtpoutToServer;
     private BufferedReader FtpinFromServer;
     private int FtpcontrolPort;
+
+    // Server Connection variables
+    private Socket serverSocket;
+    private DataOutputStream outToServer;
+    private BufferedReader inFromServer;
 
     public static void main(String[] args) {
         //Spawn a thread that listens and creates threads with a connection.
@@ -29,7 +35,24 @@ public class nap_client {
         System.out.println(str);
     }
 
-    public void GoButton(String command) throws IOException{
+    public void connect(String username, String hostname, String connectionspeed) {
+
+        try {
+            if(serverSocket != null){
+                serverSocket.close();
+            }
+
+            serverSocket = new Socket(hostname, 12000);
+            outToServer = new DataOutputStream(FtpControlSocket.getOutputStream());
+            inFromServer = new BufferedReader(new InputStreamReader(FtpControlSocket.getInputStream()));
+            outToServer.writeBytes("register: " + username + ", " + serverSocket.getLocalAddress().toString() + ", " + connectionspeed); //FIXME filenames???????
+
+        }catch(Exception e){
+            System.out.println("connection to server failed!");
+        }
+    }
+
+    public void ftpButton(String command) throws IOException{
         String sentence = command; // insert textfield input
         StringTokenizer tokens = new StringTokenizer(sentence);
 
