@@ -74,7 +74,7 @@ public class nap_client {
     }
 
     public ArrayList<String> searchBtn(String filter) throws IOException {
-        String sentence = "search: " + filter;
+        String sentence = "search: " + filter + "\n";
         outToServer.writeBytes(sentence);
         ArrayList<String> files = new ArrayList<String>();
         while (true) {
