@@ -233,7 +233,11 @@ public class MainGui {
 			if (GoBtn == event.getSource()) {
 				//Does Go Stuff her
 				commandResults.append(">> " + commandTxt.getText() + "\n");
-				commandResults.append(client.ftpButton(commandTxt.getText()));
+				try {
+					commandResults.append(client.ftpButton(commandTxt.getText()));
+				} catch(IOException e) {
+					
+				}
 				commandTxt.setText("");
 			}
 		}

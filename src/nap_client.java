@@ -142,10 +142,11 @@ public class nap_client {
             dataSocket.close();
             return("Successfully downloaded " + filename + "\n");
         }else if(sentence.startsWith("quit")){
-            return("Exiting.....\n");
             FtpControlSocket.close();
+            return("Exiting.....\n");
 
         }
+	return "error in the command";
     }
 
     public void quit() {
