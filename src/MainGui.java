@@ -14,12 +14,11 @@ import javax.swing.JTextField;
 
 public class MainGui {
 	JPanel panel;
-	JTextArea searchResults;
+	JTextArea searchResults, commandResults;
 	JFrame frame;
-	JLabel connection, ServerhostName, port, userName, hostName, speed, search, enter, keyword;
-	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt, keywordTxt;
-	JButton connect, searchBtn, GoBtn;
-	nap_client client;	
+	JLabel connection, ServerhostName, port, userName, hostName, speed, search, enter, keyword, ftp, command;
+	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt, keywordTxt, commandTxt;
+	JButton connect, searchBtn, GoBtn;	
 		
 	public MainGui() {
 		client = new nap_client();
