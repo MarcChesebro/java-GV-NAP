@@ -17,8 +17,10 @@ public class MainGui {
 	JTextArea searchResults, commandResults;
 	JFrame frame;
 	JLabel connection, ServerhostName, port, userName, hostName, speed, search, enter, keyword, ftp, command;
-	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt, keywordTxt, commandTxt;
-	JButton connect, searchBtn, GoBtn;	
+	JTextField commandTxt;
+	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt, keywordTxt;
+	JButton connect, searchBtn, GoBtn;
+	nap_client client;
 		
 	public MainGui() {
 		client = new nap_client();
@@ -163,7 +165,7 @@ public class MainGui {
 		c.gridy=32;
 		panel.add(command, c);
 
-		JTextField commandTxt = new JTextField();
+		commandTxt = new JTextField();
 		c.ipadx=500;
 		c.gridx=1;
 		c.gridy=32;
@@ -226,14 +228,16 @@ public class MainGui {
 				} catch(IOException e) {
 				
 				}
-				keywordTxt.clearText();
+//				keywordTxt.();
 			}
 			
 			if (GoBtn == event.getSource()) {
 				//Does Go Stuff her
 				commandResults.append(">> " + commandTxt.getText() + "\n");
-				commandResults.append(client.ftpButton(commandTxt.getText()));
-				commandText.clearText();
+				try {
+					commandResults.append(client.ftpButton(commandTxt.getText()));
+				}catch(Exception e){}
+//				commandTxt.clearText();
 			}
 		}
 	}
