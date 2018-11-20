@@ -4,7 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +18,7 @@ public class MainGui {
 	JFrame frame;
 	JLabel connection, ServerhostName, port, userName, hostName, speed, search, enter, keyword, ftp, command;
 	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt, keywordTxt, commandTxt;
-	JButton connect, searchBtn, GoBtn;
+	JButton connect, searchBtn, goBtn;
 	nap_client client;	
 		
 	public MainGui() {
@@ -165,43 +165,47 @@ public class MainGui {
 		c.gridy=32;
 		panel.add(command, c);
 
-		JTextField commandTxt = new JTextField();
+		commandTxt = new JTextField();
 		c.ipadx=500;
 		c.gridx=1;
 		c.gridy=32;
 		panel.add(commandTxt, c);
 		
-		GoBtn = new JButton("Go");
+		goBtn = new JButton("Go");
 		c.ipadx=0;
 		c.gridwidth=1;
 		c.gridx=2;
 		c.gridy=32;
-		panel.add(GoBtn, c);
-		searchBtn.addActionListener(new ButtonListener());
+		panel.add(goBtn, c);
+		goBtn.addActionListener(new ButtonListener());
 		
 		searchResults = new JTextArea(10, 100);
 		searchResults.setEditable(false);
 		searchResults.setLineWrap(true);
 		searchResults.setWrapStyleWord(true);
+		JScrollPane scroll = new JScrollPane(searchResults);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		c.ipadx=0;
 		c.ipady=0;
 		c.gridwidth=5;
 		c.gridheight=5;
 		c.gridx=0;
 		c.gridy=6;
-		panel.add(searchResults,c);
+		panel.add(scroll,c);
 
-		JTextArea commandResults = new JTextArea(10, 100);
+		commandResults = new JTextArea(10, 100);
 		commandResults.setEditable(false);
 		commandResults.setLineWrap(true);
 		commandResults.setWrapStyleWord(true);
+		scroll = new JScrollPane(commandResults);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);	
 		c.ipadx=0;
 		c.ipady=0;
 		c.gridwidth=5;
 		c.gridheight=5;
 		c.gridx=0;
 		c.gridy=33;
-		panel.add(commandResults,c);
+		panel.add(scroll,c);
 
 		frame.add(panel);
 		frame.pack();
@@ -210,10 +214,10 @@ public class MainGui {
 	private class ButtonListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent event) {
-
+		//	System.out.println(event);
 			if (connect == event.getSource()) {
 				client.connect(userNameTxt.getText(), hostNameTxt.getText(), speedTxt.getText());
-				searchResults.setText("Speed:\t\t\t Hostname:\t\t\t FileName:\t\t\t\n");
+				searchResults.setText("Speed:\t\t\t Hostname:\t\t\t\t FileName:\t\t\t\n");
 				try {
 					ArrayList<String> files = client.searchBtn("");
 					for (int i = 0; i < files.size(); i++) {
@@ -229,9 +233,9 @@ public class MainGui {
 
 			if (searchBtn == event.getSource()) {
 				//Does Search stuff here
-				searchResults.setText("Speed:\t\t\t Hostname:\t\t\t FileName:\t\t\t\n");
+				searchResults.setText("Speed:\t\t\t Hostname:\t\t\t\t FileName:\t\t\t\n");
 				try {
-					System.out.println(keywordTxt.getText() + "What");
+				//	System.out.println(keywordTxt.getText() + "What");
 					ArrayList<String> files = client.searchBtn(keywordTxt.getText());
 					for (int i = 0; i < files.size(); i++) {
 						searchResults.append(files.get(i)+ "\n");	
@@ -242,7 +246,8 @@ public class MainGui {
 				//keywordTxt.setText("");
 			}
 			
-			if (GoBtn == event.getSource()) {
+			if (goBtn == event.getSource()) {
+		//		System.out.println("go button pressed");
 				//Does Go Stuff her
 				commandResults.append(">> " + commandTxt.getText() + "\n");
 				try {

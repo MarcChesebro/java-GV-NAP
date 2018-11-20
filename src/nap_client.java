@@ -64,7 +64,7 @@ public class nap_client {
                 }
             }
 
-            System.out.println(connectionString);
+            //System.out.println(connectionString);
             connectionString += "\n";
             outToServer.writeBytes(connectionString);
 
@@ -98,13 +98,13 @@ public class nap_client {
     public String ftpButton(String command) throws IOException{
         String sentence = command;
         StringTokenizer tokens = new StringTokenizer(sentence);
-
+	System.out.println(command);
         if (sentence.startsWith("connect")) {
             tokens.nextToken();
             String serverName = tokens.nextToken();
             FtpcontrolPort = Integer.parseInt(tokens.nextToken());
 
-            Socket FtpControlSocket = new Socket(serverName, FtpcontrolPort);
+            this.FtpControlSocket = new Socket(serverName, FtpcontrolPort);
 
             FtpoutToServer = new DataOutputStream(FtpControlSocket.getOutputStream());
             FtpinFromServer = new BufferedReader(new InputStreamReader(FtpControlSocket.getInputStream()));
