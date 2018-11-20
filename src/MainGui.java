@@ -227,10 +227,14 @@ public class MainGui {
 				} catch(IOException e) {
 				
 				}
+				keywordTxt.clearText();
 			}
 			
 			if (GoBtn == event.getSource()) {
-				//Does Go Stuff here
+				//Does Go Stuff her
+				commandResults.append(">> " + commandTxt.getText() + "\n");
+				commandResults.append(client.ftpButton(commandTxt.getText()));
+				commandText.clearText();
 			}
 		}
 	}
