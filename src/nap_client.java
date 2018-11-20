@@ -36,7 +36,7 @@ public class nap_client {
 
     }
 
-    public void write_to_ftp_window(String str){
+    public void write_to_ftp_window(String str) {
         // FIXME print to gui when implemented
         System.out.println(str);
     }
@@ -44,7 +44,7 @@ public class nap_client {
     public void connect(String username, String hostname, String connectionspeed) {
 
         try {
-            if(serverSocket != null){
+            if (serverSocket != null) {
                 serverSocket.close();
             }
 
@@ -68,37 +68,38 @@ public class nap_client {
             connectionString += "\n";
             outToServer.writeBytes(connectionString);
 
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("connection to server failed!" + e.toString());
         }
     }
-    public ArrayList<String> searchBtn(String filter) throws IOException{
-    	String sentence = "search: " + filter;
-	outToServer.writeBytes(sentence);
-	ArrayList<String> files = new ArrayList<String>();
-	while(true) {
-		String fromClient = inFromServer.readLine();
-		if (fromClient == null) {
-			continue;
-		}
-		files.add(fromClient);
-		while (!fromClient.equals("done")) {
-			fromClient = inFromServer.readLine();
-			if (fromClient == null) {
-				continue;
-			}
-			files.add(fromClient);
-		}
-		break;
-	}
-	return files;
+
+    public ArrayList<String> searchBtn(String filter) throws IOException {
+        String sentence = "search: " + filter;
+        outToServer.writeBytes(sentence);
+        ArrayList<String> files = new ArrayList<String>();
+        while (true) {
+            String fromClient = inFromServer.readLine();
+            if (fromClient == null) {
+                continue;
+            }
+            files.add(fromClient);
+            while (!fromClient.equals("done")) {
+                fromClient = inFromServer.readLine();
+                if (fromClient == null) {
+                    continue;
+                }
+                files.add(fromClient);
+            }
+            break;
+        }
+        return files;
     }
 
     public String ftpButton(String command) throws IOException{
         String sentence = command;
-	StringTokenizer tokens = new StringTokenizer(sentence);
+        StringTokenizer tokens = new StringTokenizer(sentence);
 
-        if(sentence.startsWith("connect")){
+        if (sentence.startsWith("connect")) {
             tokens.nextToken();
             String serverName = tokens.nextToken();
             FtpcontrolPort = Integer.parseInt(tokens.nextToken());
@@ -144,6 +145,17 @@ public class nap_client {
             return("Exiting.....\n");
             FtpControlSocket.close();
 
+        }
+    }
+
+    public void quit() {
+        try {
+            if (serverSocket != null) {
+                serverSocket.close();
+            }
+
+        } catch (Exception e) {
+            System.out.println("connection to server failed!" + e.toString());
         }
     }
 }
