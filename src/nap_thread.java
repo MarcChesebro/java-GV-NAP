@@ -49,7 +49,7 @@ final class nap_thread implements Runnable {
       	 	int port = Integer.parseInt(frstln);
 		System.out.println("should be port number: " + port);
         	String clientCommand = tokens.nextToken();
-		if (clientCommand.equals("search")) { 
+		if (clientCommand.equals("search:")) { 
                 	read();
 			String searchKey = tokens.nextToken();
 			if (searchKey == null) searchKey = "";
