@@ -18,7 +18,8 @@ public class MainGui {
 	JFrame frame;
 	JLabel connection, ServerhostName, port, userName, hostName, speed, search, enter, keyword, ftp, command;
 	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt, keywordTxt, commandTxt;
-	JButton connect, searchBtn, GoBtn;	
+	JButton connect, searchBtn, GoBtn;
+	nap_client client;	
 		
 	public MainGui() {
 		client = new nap_client();
@@ -233,7 +234,7 @@ public class MainGui {
 				//Does Go Stuff her
 				commandResults.append(">> " + commandTxt.getText() + "\n");
 				commandResults.append(client.ftpButton(commandTxt.getText()));
-				commandText.setText("");
+				commandTxt.setText("");
 			}
 		}
 	}
