@@ -59,10 +59,12 @@ final class nap_thread implements Runnable {
 		    System.out.println("searching");
                 read();
 		System.out.println("read successful");
-                String searchKey = tokens.nextToken();
-		System.out.println(searchKey + "hello");
-                if (searchKey == null) searchKey = "";
-                ArrayList<String> output = findFiles(searchKey);
+	        if (!tokens.hasMoreElements()) {
+	    	   clientCommand = "";
+	        } else {
+                   clientCommand = tokens.nextToken();
+		}
+                ArrayList<String> output = findFiles(clientCommand);
                 for (int i = 0; i < output.size(); i++) {
 		
                     outToClient.writeBytes(output.get(i) + "\n");
