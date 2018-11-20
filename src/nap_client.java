@@ -7,8 +7,8 @@ import java.util.StringTokenizer;
 public class nap_client {
 
     private Socket FtpControlSocket;
-    DataOutputStream FtpoutToServer;
-    BufferedReader FtpinFromServer;
+    private DataOutputStream FtpoutToServer;
+    private BufferedReader FtpinFromServer;
     int FtpcontrolPort;
 
     public static void main(String[] args) {
@@ -31,7 +31,7 @@ public class nap_client {
             String serverName = tokens.nextToken();
             FtpcontrolPort = Integer.parseInt(tokens.nextToken());
 
-            Socket ControlSocket = new Socket(serverName, FtpcontrolPort);
+            Socket FtpControlSocket = new Socket(serverName, FtpcontrolPort);
 
             FtpoutToServer = new DataOutputStream(FtpControlSocket.getOutputStream());
             FtpinFromServer = new BufferedReader(new InputStreamReader(FtpControlSocket.getInputStream()));
