@@ -1,4 +1,4 @@
-import java.utils.*;
+import java.util.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -72,18 +72,18 @@ public class nap_client {
             System.out.println("connection to server failed!" + e.toString());
         }
     }
-    public ArrayList<String> searchBtn(String filter) throws IOException {
+    public ArrayList<String> searchBtn(String filter) throws IOException{
     	String sentence = "search: " + filter;
 	outToServer.writeBytes(sentence);
 	ArrayList<String> files = new ArrayList<String>();
 	while(true) {
-		String fromClient = inFromClient.readLine();
+		String fromClient = inFromServer.readLine();
 		if (fromClient == null) {
 			continue;
 		}
 		files.add(fromClient);
 		while (!fromClient.equals("done")) {
-			fromClient = inFromClient.readLine();
+			fromClient = inFromServer.readLine();
 			if (fromClient == null) {
 				continue;
 			}

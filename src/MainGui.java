@@ -19,9 +19,13 @@ public class MainGui {
 	JLabel connection, ServerhostName, port, userName, hostName, speed, search, enter, keyword;
 	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt, keywordTxt;
 	JButton connect, searchBtn;
-		
+	nap_client client;	
 		
 	public MainGui() {
+		client = new nap_client();
+		nap_client_thread ftp_server = new nap_client_thread();
+		Thread client_ftp_server = new Thread(ftp_server);
+		client_ftp_server.start();
 		gui();
 		
 	}
@@ -171,7 +175,11 @@ public class MainGui {
 			if (searchBtn == event.getSource()) {
 				//Does Search stuff here
 				searchResults.setText("Speed:\t\t\t Hostname:\t\t\t FileName:\t\t\t\n");
-				ArrayList<String> files = client.searchBtn(keywordTxt.getText());
+				try {
+					ArrayList<String> files = client.searchBtn(keywordTxt.getText());
+				} catch(IOException e) {
+				
+				}
 			}
 		}
 	}
