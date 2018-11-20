@@ -7,14 +7,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class MainGui {
 	JPanel panel;
+	JTextArea searchResults;
 	JFrame frame;
-	 JLabel connection, ServerhostName, port, userName, hostName, speed;
-	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt;
-	JButton connect;
+	JLabel connection, ServerhostName, port, userName, hostName, speed, search, enter, keyword;
+	JTextField ServerhostNameTxt, portTxt, userNameTxt, hostNameTxt, speedTxt, keywordTxt;
+	JButton connect, searchBtn;
 		
 		
 	public MainGui() {
@@ -105,6 +107,49 @@ public class MainGui {
 		c.gridy=2;
 		panel.add(speedTxt, c);
 		
+		enter = new JLabel("      ");
+		c.ipadx=0;
+		c.gridx=0;
+		c.gridy=3;
+		panel.add(enter, c);
+		
+		search = new JLabel("Search:");
+		c.ipadx=0;
+		c.gridx=0;
+		c.gridy=4;
+		panel.add(search, c);
+		
+		keyword = new JLabel("Keyword:");
+		c.ipadx=0;
+		c.gridx=0;
+		c.gridy=5;
+		panel.add(keyword, c);
+		
+		keywordTxt = new JTextField();
+		c.ipadx=500;
+		c.gridx=1;
+		c.gridy=5;
+		panel.add(keywordTxt, c);
+		
+		searchBtn = new JButton("Search");
+		c.ipadx=0;
+		c.gridwidth=1;
+		c.gridx=2;
+		c.gridy=5;
+		panel.add(searchBtn, c);
+		searchBtn.addActionListener(new ButtonListener());
+		
+		searchResults = new JTextArea(1, 1);
+		//searchResults.setEditable(false);
+		searchResults.setLineWrap(true);
+		c.ipadx=0;
+		c.ipady=0;
+		c.gridwidth=1;
+		c.gridx=1;
+		c.gridy=6;
+		panel.add(searchResults,c);
+		
+		
 		frame.add(panel);
 		frame.pack();
 	}
@@ -118,6 +163,11 @@ public class MainGui {
 				//Does Connect stuff?
 				
 			}
+			
+			if (searchBtn == event.getSource()) {
+				//Does Search stuff here
+				searchResults.setText("Speed: Hostname: FileName:");
+			}
 		}
 	}
 	
@@ -127,3 +177,4 @@ public class MainGui {
 	 }
 	 
 }
+

@@ -1,3 +1,4 @@
+/*
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -15,8 +16,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 
 public class ClientPanel extends JPanel {
-
-  public ClientPanel() {
+  private nap_client client;
+  public ClientPanel(nap_client client) {
+    this.client = client;
     JLabel connection, hostName, port;
     JTextField hostNameTxt;
     JButton connect;
@@ -49,7 +51,8 @@ public class ClientPanel extends JPanel {
     c.gridy=1;
     pane.add(connect, c);
 
-
+    this.connect.addActionListener(this);
 
   }
 }
+*/

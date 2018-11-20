@@ -48,13 +48,13 @@ final class nap_thread implements Runnable {
             if (fromClient == null) {
                 continue;
             }
-	    System.out.println("through");
+	    //System.out.println("through");
             StringTokenizer tokens = new StringTokenizer(fromClient);
             //String frstln = tokens.nextToken();
             //int port = Integer.parseInt(frstln);
             //System.out.println(frstln);
             String clientCommand = tokens.nextToken();
-            System.out.println(clientCommand);
+            //System.out.println(clientCommand);
 	    if (clientCommand.equals("search:")) {
                 read();
                 String searchKey = tokens.nextToken();
@@ -70,7 +70,7 @@ final class nap_thread implements Runnable {
                 String username = tokens.nextToken();
                 String hostname = tokens.nextToken();
                 String connectSpeed = tokens.nextToken();
-		//System.out.println(username + " " + hostname + " " + connectSpeed);
+		System.out.println(username + " " + hostname + " " + connectSpeed);
                 nap_user newUser = new nap_user(username, hostname, connectSpeed);
                 String filename;
                 String description;
@@ -79,6 +79,7 @@ final class nap_thread implements Runnable {
                     description = tokens.nextToken();
                     newUser.addFile(filename, description);
                 }
+		users.add(newUser);
                 write();
                 outToClient.writeBytes(statusOk);
             } else if (clientCommand.equals("quit")) {
@@ -157,7 +158,7 @@ final class nap_thread implements Runnable {
             n.write();*/
             nap_thread q = new nap_thread(null);
             q.read();
-            //System.out.println(q.users.size());
+            System.out.println(q.users.size());
             for (int i = 0; i < q.users.size(); i++) {
                 nap_user u = q.users.get(i);
                 System.out.println(u.username + " " + u.hostname + " " + u.speed);
