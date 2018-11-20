@@ -27,7 +27,7 @@ public class MainGui {
 		Thread client_ftp_server = new Thread(ftp_server);
 		client_ftp_server.start();
 		gui();
-		System.out.println(
+		//System.out.println(
 		
 	}
 	

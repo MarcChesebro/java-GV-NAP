@@ -56,11 +56,15 @@ final class nap_thread implements Runnable {
             String clientCommand = tokens.nextToken();
             //System.out.println(clientCommand);
 	    if (clientCommand.equals("search:")) {
+		    System.out.println("searching");
                 read();
+		System.out.println("read successful");
                 String searchKey = tokens.nextToken();
+		System.out.println(searchKey + "hello");
                 if (searchKey == null) searchKey = "";
                 ArrayList<String> output = findFiles(searchKey);
                 for (int i = 0; i < output.size(); i++) {
+		
                     outToClient.writeBytes(output.get(i) + "\n");
                 }
 		outToClient.writeBytes("done\n");
@@ -82,7 +86,7 @@ final class nap_thread implements Runnable {
                 }
 		users.add(newUser);
                 write();
-                outToClient.writeBytes(statusOk);
+                //outToClient.writeBytes(statusOk);
             } else if (clientCommand.equals("quit")) {
                 break;
             }
@@ -92,12 +96,15 @@ final class nap_thread implements Runnable {
 
     public void write() {
         try {
+		File file = new File("data.ser");
+		file.delete();
             FileOutputStream fileOut = new FileOutputStream("data.ser", true);
             ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(fileOut));
             for (int i = 0; i < users.size(); i++) {
                 out.writeObject(users.get(i));
             }
-            out.close();
+            out.flush();
+	    out.close();
             fileOut.close();
         } catch (IOException i) {
             System.out.println("error in writing users");
@@ -112,13 +119,18 @@ final class nap_thread implements Runnable {
             saveFile = new FileInputStream("data.ser");
             try {
                 ObjectInputStream save = new ObjectInputStream(new BufferedInputStream(saveFile));
-                for (; ; ) {
+                //save.reset();
+		for (;;) {
                     users.add((nap_user) save.readObject());
+			System.out.println(users.size());
                     count++;
                 }
+		//saveFile.flush();
             } catch (Exception e) {
-
+		System.out.println(e);
             } finally {
+		//save.flush();
+		//save.close();
                 saveFile.close();
             }
         } catch (EOFException e) {
@@ -130,9 +142,11 @@ final class nap_thread implements Runnable {
 
     public ArrayList<String> findFiles(String text) {
         ArrayList<String> retList = new ArrayList<String>();
+	System.out.println(users.size());
         for (int i = 0; i < users.size(); i++) {
             nap_user user = users.get(i);
             for (int j = 0; j < user.filesAndDesc.size(); j++) {
+		    System.out.println(user.filesAndDesc.get(j));
                 if (user.filesAndDesc.get(j).contains(text)) {
                     retList.add(user.speed + "\t\t\t " + user.hostname +  "\t\t\t " + user.filesAndDesc.get(j));
                 }
