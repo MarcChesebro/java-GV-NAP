@@ -120,7 +120,10 @@ public class MainGUI {
 		public void actionPerformed(ActionEvent event) {
 
 			if (connect == event.getSource()) {
-				
+				String username = userNameTxt.getText();
+				String hostname = hostName.getText();
+				String connectionSpeed = speedTxt.getText();
+				client.connect(username, hostname, connectionSpeed);
 				//Does Connect stuff?
 				
 			}
