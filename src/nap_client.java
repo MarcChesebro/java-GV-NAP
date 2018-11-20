@@ -31,6 +31,7 @@ public class nap_client {
         // start the thread
         client_ftp_server.start();
         client.connect("Marc", "localhost", "fast");
+
     }
 
     public void write_to_ftp_window(String str){
@@ -49,7 +50,7 @@ public class nap_client {
 
             outToServer = new DataOutputStream(serverSocket.getOutputStream());
             inFromServer = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
-            String connectionString = "register: " + username + ", " + serverSocket.getLocalAddress().toString() + ", " + connectionspeed;
+            String connectionString = "register: " + username + ", " + serverSocket.getLocalAddress().toString() + ", " + connectionspeed + "\n";
             System.out.println(connectionString);
             outToServer.writeBytes(connectionString); //FIXME filenames???????
 
