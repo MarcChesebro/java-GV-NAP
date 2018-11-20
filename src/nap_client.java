@@ -9,13 +9,18 @@ public class nap_client {
     private Socket FtpControlSocket;
     private DataOutputStream FtpoutToServer;
     private BufferedReader FtpinFromServer;
-    int FtpcontrolPort;
+    private int FtpcontrolPort;
 
     public static void main(String[] args) {
         //Spawn a thread that listens and creates threads with a connection.
         String sentence;
         String commands = "retr file.txt || quit";
 
+        nap_client_thread ftp_server = new nap_client_thread();
+        Thread client_ftp_server = new Thread(ftp_server);
+
+        // start the thread
+        client_ftp_server.start();
 
     }
 
