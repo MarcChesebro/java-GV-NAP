@@ -212,6 +212,16 @@ public class MainGui {
 
 			if (connect == event.getSource()) {
 				client.connect(userNameTxt.getText(), hostNameTxt.getText(), speedTxt.getText());
+				searchResults.setText("Speed:\t\t\t Hostname:\t\t\t FileName:\t\t\t\n");
+				try {
+					ArrayList<String> files = client.searchBtn("");
+					for (int i = 0; i < files.size(); i++) {
+						searchResults.append(files.get(i)+ "\n");	
+					}
+				} catch(IOException e) {
+				
+				}
+				
 				//Does Connect stuff?
 
 			}
