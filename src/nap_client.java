@@ -94,7 +94,7 @@ public class nap_client {
 	return files;
     }
 
-    public void ftpButton(String command) throws IOException{
+    public String ftpButton(String command) throws IOException{
         String sentence = command;
 	StringTokenizer tokens = new StringTokenizer(sentence);
 
@@ -107,7 +107,7 @@ public class nap_client {
 
             FtpoutToServer = new DataOutputStream(FtpControlSocket.getOutputStream());
             FtpinFromServer = new BufferedReader(new InputStreamReader(FtpControlSocket.getInputStream()));
-            write_to_ftp_window("Connected to " + serverName);
+            return ("Connected to " + serverName + "\n");
         }else if (sentence.startsWith("retr")){
 	    
             int dataPort = FtpcontrolPort + 2;
@@ -139,9 +139,9 @@ public class nap_client {
             toFile.close();
             welcomeData.close();
             dataSocket.close();
-            write_to_ftp_window("Successfully downloaded " + filename);
+            return("Successfully downloaded " + filename + "\n");
         }else if(sentence.startsWith("quit")){
-            write_to_ftp_window("Exiting.....");
+            return("Exiting.....\n");
             FtpControlSocket.close();
 
         }

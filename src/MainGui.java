@@ -230,7 +230,9 @@ public class MainGui {
 			}
 			
 			if (GoBtn == event.getSource()) {
-				//Does Go Stuff here
+				//Does Go Stuff her
+				commandResults.append(">> " + commandTxt.getText() + "\n");
+				commandResults.appned(client.ftpButton(commandTxt.getText()));
 			}
 		}
 	}
