@@ -145,6 +145,39 @@ public class MainGui {
 		panel.add(searchBtn, c);
 		searchBtn.addActionListener(new ButtonListener());
 	
+		enter = new JLabel("       ");
+		c.ipadx=0;
+		c.gridx=0;
+		c.gridy=30;
+		panel.add(enter, c);
+		
+		
+		ftp = new JLabel("FTP:");
+		c.ipadx=0;
+		c.gridx=0;
+		c.gridy=31;
+		panel.add(ftp, c);
+		
+		command = new JLabel("Enter Command:");
+		c.ipadx=0;
+		c.gridx=0;
+		c.gridy=32;
+		panel.add(command, c);
+		
+		commandTxt = new JTextField();
+		c.ipadx=500;
+		c.gridx=1;
+		c.gridy=32;
+		panel.add(commandTxt, c);
+		
+		GoBtn = new JButton("Go");
+		c.ipadx=0;
+		c.gridwidth=1;
+		c.gridx=2;
+		c.gridy=32;
+		panel.add(GoBtn, c);
+		searchBtn.addActionListener(new ButtonListener());
+		
 		searchResults = new JTextArea(10, 100);
 		searchResults.setEditable(false);
 		searchResults.setLineWrap(true);
@@ -157,6 +190,17 @@ public class MainGui {
 		c.gridy=6;
 		panel.add(searchResults,c);
 
+		commandResults = new JTextArea(10, 100);
+		commandResults.setEditable(false);
+		commandResults.setLineWrap(true);
+		commandResults.setWrapStyleWord(true);
+		c.ipadx=0;
+		c.ipady=0;
+		c.gridwidth=5;
+		c.gridheight=5;
+		c.gridx=0;
+		c.gridy=33;
+		panel.add(commandResults,c);
 
 		frame.add(panel);
 		frame.pack();
@@ -180,6 +224,10 @@ public class MainGui {
 				} catch(IOException e) {
 				
 				}
+			}
+			
+			if (GoBtn == event.getSource()) {
+				//Does Go Stuff here
 			}
 		}
 	}
