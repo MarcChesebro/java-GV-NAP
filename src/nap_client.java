@@ -47,8 +47,8 @@ public class nap_client {
 
             serverSocket = new Socket(hostname, 12000);
 
-            outToServer = new DataOutputStream(FtpControlSocket.getOutputStream());
-            inFromServer = new BufferedReader(new InputStreamReader(FtpControlSocket.getInputStream()));
+            outToServer = new DataOutputStream(serverSocket.getOutputStream());
+            inFromServer = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
             String connectionString = "register: " + username + ", " + serverSocket.getLocalAddress().toString() + ", " + connectionspeed;
             System.out.println(connectionString);
             outToServer.writeBytes(connectionString); //FIXME filenames???????
